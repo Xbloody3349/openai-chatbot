@@ -11,22 +11,21 @@ if not OPENAI_API_KEY:
 
 openai.api_key = OPENAI_API_KEY  # ✅ Correct OpenAI initialization
 
-
 @app.route("/chat", methods=["POST"])
 def chat():
     try:
         data = request.get_json()
         user_message = data.get("message", "")
 
-        response = client.chat.completions.create(  # ✅ FIXED INDENTATION
+        response = openai.ChatCompletion.create(  # ✅ Fixed OpenAI method
             model="gpt-4o",
             messages=[{"role": "user", "content": user_message}]
         )
 
-        return jsonify({"response": response.choices[0].message.content})
+        return jsonify({"response": response["choices"][0]["message"]["content"]})
 
     except Exception as e:
-        return jsonify({"error": str(e)}), 500  # ✅ Return error message
+        return jsonify({"error": str(e)}), 500  # ✅ Returns a JSON error
 
 # ✅ Ensure the app runs properly
 if __name__ == "__main__":
