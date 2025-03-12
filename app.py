@@ -17,7 +17,7 @@ def chat():
         data = request.get_json()
         user_message = data.get("message", "")
 
-        response = openai.client.chat.completions.create(  # ✅ FIXED OpenAI Method
+        response = openai.ChatCompletion.create(  # ✅ FIXED OpenAI Method
             model="gpt-4o",
             messages=[{"role": "user", "content": user_message}]
         )
@@ -28,5 +28,4 @@ def chat():
         return jsonify({"error": str(e)}), 500  # ✅ Returns a JSON error
 
 # ✅ Ensure the app runs properly
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8080)
+if __
