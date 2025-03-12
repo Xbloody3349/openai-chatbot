@@ -17,17 +17,17 @@ def chat():
         data = request.get_json()
         user_message = data.get("message", "")
 
-        # ✅ Correct OpenAI API method for v1.0+
+        # ✅ Correct OpenAI method for v1.0+ API
         response = openai.Completion.create(  # ✅ Corrected method for OpenAI v1.0+
-            model="gpt-4",
-            prompt=user_message,  # Use 'prompt' instead of 'messages'
+            model="gpt-3.5-turbo",  # Ensure you are using an appropriate model
+            prompt=user_message,  # Prompt-based completion
             max_tokens=100  # Adjust the response length
         )
 
-        return jsonify({"response": response.choices[0].text.strip()})
+        return jsonify({"response": response["choices"][0]["text"].strip()})  # ✅ Proper response format
 
     except Exception as e:
-        return jsonify({"error": str(e)}), 500  # ✅ Return a JSON error instead of crashing
+        return jsonify({"error": str(e)}), 500  # ✅ Returns a JSON error instead of crashing
 
 # ✅ Ensure the app runs properly
 if __name__ == "__main__":
