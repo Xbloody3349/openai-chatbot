@@ -9,7 +9,8 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 if not OPENAI_API_KEY:
     raise ValueError("🚨 OPENAI_API_KEY is missing! Set it in Railway.")
 
-client = openai.OpenAI(api_key=OPENAI_API_KEY)  # ✅ NEW CLIENT METHOD
+openai.api_key = OPENAI_API_KEY  # ✅ Correct OpenAI initialization
+
 
 @app.route("/chat", methods=["POST"])
 def chat():
