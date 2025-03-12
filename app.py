@@ -17,17 +17,18 @@ def chat():
         data = request.get_json()
         user_message = data.get("message", "")
 
-        response = openai.ChatCompletion.create(  # ✅ FIXED OpenAI Method (No syntax error)
+        # ✅ Use the new method for OpenAI v1.0+
+        response = openai.Completion.create(  # ✅ New method for v1.0+ API
             model="gpt-4o",
-            messages=[{"role": "user", "content": user_message}]
-        )  # ✅ Parentheses correctly closed
+            prompt=user_message,
+            max_tokens=100
+        )
 
-        return jsonify({"response": response.choices[0].message["content"]})  # ✅ Fixed response format
+        return jsonify({"response": response['choices'][0]['text']})
 
     except Exception as e:
-        return jsonify({"error": str(e)}), 500  # ✅ Returns a JSON error instead of crashing
+        return jsonify({"error": str(e)}), 500  # ✅ Return a JSON error instead of crashing
 
 # ✅ Ensure the app runs properly
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8080)  # ✅ Parentheses are correctly closed
-
+    app.run(host="0.0.0.0", port=8080)
